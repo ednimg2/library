@@ -64,6 +64,10 @@ class Book
      * @var float
      *
      * @Assert\NotBlank()
+     * @Assert\GreaterThan(
+     *     value = 0,
+     *     message = "Value must be greater than 0"
+     * )
      * @ORM\Column(name="price", type="float")
      */
     private $price;
