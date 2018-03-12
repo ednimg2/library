@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Book;
+use AppBundle\Entity\BookSearch;
 use AppBundle\Form\BookSearchType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -16,15 +17,34 @@ class BookController extends Controller
      *
      * @Route("/")
      * @Route("book/", name="book_index")
-     * @Method("GET")
+     * @Method({"GET", "POST"})
      */
     public function indexAction(Request $request, $page = 1)
     {
+        $bookSearch = new BookSearch();
+        $form = $this->createForm(BookSearchType::class, $bookSearch);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $isbn = $bookSearch->getIsbn();
+            $author = $bookSearch->getAuthor() ? $bookSearch->getAuthor()->getName() : null;
+            $em = $this->getDoctrine()->getManager();
+            $books = $em->getRepository('AppBundle:Book')
+                ->findAllByCriteria($isbn, $author);
+
+            return $this->render('@App/book/index.html.twig', [
+                'books' => $books,
+                'bookSearchForm' => $form->createView(),
+            ]);
+        }
+
         $em = $this->getDoctrine()->getManager();
         $books = $em->getRepository('AppBundle:Book')->findAll();
 
         return $this->render('@App/book/index.html.twig', array(
             'books' => $books,
+            'bookSearchForm' => $form->createView(),
         ));
     }
 

@@ -2,6 +2,20 @@
 
 {% block body %}
     <h1>Books list</h1>
+    {{ form_start(bookSearchForm, {'action': path('book_index'), 'method': 'POST' }) }}
+    <div class="form-row my-4">
+        <div class="col-5">
+            {{ form_widget(bookSearchForm.isbn, {'attr':{'class':'form-control', 'placeholder':'Isbn'}}) }}
+        </div>
+        <div class="col-6">
+            {{ form_widget(bookSearchForm.author, {'attr':{'class':'form-control', 'placeholder':'Author'}}) }}
+        </div>
+        <div class="col">
+            <button class="btn btn-dark">Search</button>
+        </div>
+    </div>
+    {{ form_widget(bookSearchForm) }}
+    {{ form_end(bookSearchForm) }}
     <div class="table-responsive">
         <table class="table table-hover">
             <thead>

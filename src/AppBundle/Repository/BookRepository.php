@@ -13,5 +13,23 @@ use Doctrine\ORM\EntityRepository;
  */
 class BookRepository extends EntityRepository
 {
+    public function findAllByCriteria($isbn = '', $author = '')
+    {
+        $query = $this->createQueryBuilder('book')
+            ->leftJoin('book.author', 'author');
 
+        if($isbn) {
+            $query->andWhere('book.isbn LIKE :isbn')
+                ->setParameter('isbn', '%' . $isbn . '%');
+        }
+
+        if ($author) {
+            $query->andWhere('author.name = :author')
+                ->setParameter('author', $author);
+        }
+
+        return $query->orderBy('book.price', 'ASC')
+            ->getQuery()
+            ->execute();
+    }
 }
