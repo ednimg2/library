@@ -21,7 +21,13 @@
                 <th width="40" scope="row">{{ book.id }}</th>
                 <td><a href="{{ path('book_show', { 'id': book.id }) }}">{{ book.title }}</a></td>
                 <td>{{ book.category }}</td>
-                <td>{{ book.getAuthor }}</td>
+                <td>
+                    <ul class="list-inline">
+                    {% for author in book.getAuthor %}
+                        <li class="list-inline-item">{{ author.name }}</li>
+                    {% endfor %}
+                    </ul>
+                </td>
                 <td>{{ book.price }}</td>
                 <td>{{ book.isbn }}</td>
                 <td width="100">

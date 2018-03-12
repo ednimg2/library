@@ -19,7 +19,13 @@
         </tr>
         <tr>
             <th>Author</th>
-            <td>{{ book.getAuthor }}</td>
+            <td>
+                <ul class="list-inline">
+                    {% for author in book.getAuthor %}
+                        <li class="list-inline-item">{{ author.name }}</li>
+                    {% endfor %}
+                </ul>
+            </td>
         </tr>
         <tr>
             <th>ISBN</th>

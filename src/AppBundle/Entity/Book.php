@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * Book
@@ -40,11 +41,12 @@ class Book
     private $category;
 
     /**
-     * @var string
+     * @var array
      *
+     *
+     * @ORM\ManyToMany(targetEntity="\AppBundle\Entity\Author", inversedBy="books")
+     * @ORM\JoinTable(name="book_author")
      * @Assert\NotBlank()
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Author")
-     * @ORM\JoinColumn(name="author", referencedColumnName="id")
      */
     private $author;
 
@@ -78,6 +80,16 @@ class Book
     public function __construct()
     {
         $this->author = new ArrayCollection();
+    }
+
+    /**
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context, $payload)
+    {
+        if ($this->author->count() == 0) {
+            $context->buildViolation('You have to select any author for book!')->addViolation();;
+        }
     }
 
     /**
@@ -140,23 +152,32 @@ class Book
     }
 
     /**
-     * Set author
+     * Add Author
      *
-     * @param string $author
-     *
+     * @param \AppBundle\Entity\Author $author
      * @return Book
      */
-    public function setAuthor(Author $author): Book
+    public function setAuthor(\AppBundle\Entity\Author $author)
     {
-        $this->author = $author;
+        $this->author[] = $author;
 
         return $this;
     }
 
     /**
-     * Get author
+     * Remove Author
      *
-     * @return string
+     * @param \AppBundle\Entity\Author $author
+     */
+    public function removeAuthor(\AppBundle\Entity\Author $author)
+    {
+        $this->author->removeElement($author);
+    }
+
+    /**
+     * Get Author
+     *
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getAuthor()
     {
