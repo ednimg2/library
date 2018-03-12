@@ -1,0 +1,22 @@
+{% extends '@App/base.html.twig' %}
+
+{% block body %}
+    <h1>Author edit</h1>
+
+    {{ form_start(edit_form) }}
+        {{ form_widget(edit_form) }}
+        <input class="btn btn-dark" type="submit" value="Edit" />
+    {{ form_end(edit_form) }}
+
+    <div class="mt-4">
+        <div class="float-left">
+            <a class="btn btn-light btn-sm" href="{{ path('author_index') }}">Back to the list</a>
+        </div>
+        <div class="float-left mx-4">
+            {{ form_start(delete_form) }}
+                <input class="btn btn-danger btn-sm" type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </div>
+    </div>
+
+{% endblock %}

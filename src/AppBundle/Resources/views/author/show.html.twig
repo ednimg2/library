@@ -1,0 +1,32 @@
+{% extends '@App/base.html.twig' %}
+
+{% block body %}
+    <h1>Author</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ author.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ author.name }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="mt-4">
+        <div class="float-left">
+            <a class="btn btn-light btn-sm" href="{{ path('author_index') }}">Back to the list</a>
+        </div>
+        <div class="float-left mx-4">
+            <a class="btn btn-success btn-sm" href="{{ path('author_edit', { 'id': author.id }) }}">Edit</a>
+        </div>
+        <div class="float-left">
+            {{ form_start(delete_form) }}
+            <input class="btn btn-danger btn-sm" type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends '@App/base.html.twig' %}
+
+{% block body %}
+    <h1>Author creation</h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input class="btn btn-dark" type="submit" value="Create" />
+    {{ form_end(form) }}
+    <div class="mt-4">
+        <a class="btn btn-light btn-sm" href="{{ path('author_index') }}">Back to the list</a>
+    </div>
+
+{% endblock %}
